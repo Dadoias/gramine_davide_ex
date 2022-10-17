@@ -58,7 +58,7 @@ endif
 .PHONY: check
 check: all
 	$(GRAMINE) HelloWorld > OUTPUT
-	echo "Hello, world" | diff OUTPUT -
+	echo "Hello World" | diff OUTPUT -
 	@echo "[ Success ]"
 
 .PHONY: clean

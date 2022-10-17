@@ -9,14 +9,14 @@ CFLAGS += -O3
 endif
 
 .PHONY: all
-all: helloworld helloworld.manifest
+all: HelloWorld helloworld.manifest
 ifeq ($(SGX),1)
 all: helloworld.manifest.sgx helloworld.sig helloworld.token
 endif
 
-helloworld: helloworld.o
+HelloWorld: HelloWorld.o
 
-helloworld.o: helloworld.c
+HelloWorld.o: HelloWorld.c
 
 helloworld.manifest: helloworld.manifest.template
 	gramine-manifest \
@@ -40,7 +40,7 @@ helloworld.sig helloworld.manifest.sgx: sgx_sign
 	@:
 
 .INTERMEDIATE: sgx_sign
-sgx_sign: helloworld.manifest helloworld
+sgx_sign: helloworld.manifest HelloWorld
 	gramine-sgx-sign \
 		--manifest $< \
 		--output $<.sgx
@@ -57,13 +57,13 @@ endif
 
 .PHONY: check
 check: all
-	$(GRAMINE) helloworld > OUTPUT
+	$(GRAMINE) HelloWorld > OUTPUT
 	echo "Hello, world" | diff OUTPUT -
 	@echo "[ Success ]"
 
 .PHONY: clean
 clean:
-	$(RM) *.token *.sig *.manifest.sgx *.manifest helloworld.o helloworld OUTPUT
+	$(RM) *.token *.sig *.manifest.sgx *.manifest HelloWorld.o HelloWorld OUTPUT
 
 .PHONY: distclean
 distclean: clean
